@@ -1,0 +1,961 @@
+1-07, Using stdout and stderr
+1-08, Using stdin
+
+2-01, Exploring the anatomy of a C program
+2-02, Writing statements and expressions
+2-03, Working with identifiers
+2-04, Defining variables
+2-05, Understanding identifier scope and using storage classes
+2-06, Declaring variables and functions
+2-07, Using pointers
+2-08, Working with arrays and strings
+2-09, Comparing with conditionals
+2-10, Using switch statements
+2-11, Using while and do loops
+2-12, Iterating with the for loop
+2-13, Creating functions
+2-14, Branching with goto, break, and continue
+
+3-01, About the C preprocessor
+3-02, Defining constants
+3-03, Including files
+3-04, Exploring conditional compilation
+3-05, Defining macros
+3-06, Macro caveats
+3-07, Working with line continuation
+3-08, Including files only once
+
+4-01, About the data types
+4-02, Introducing integer types
+4-03, Understanding floating-point types
+4-04, Working with characters and strings
+4-05, Using strings
+4-06, Creating character escape sequences
+4-07, Working with qualifiers
+4-08, Using the C++ reference type
+4-09, Working with structured data
+4-10, Introducing bit-fields
+4-11, Working with enumerations
+4-12, Using unions
+4-13, Defining types with typedef
+4-14, Introducing the void type
+4-15, Understanding the auto type
+
+5-01, Exploring the assignment operator
+5-02, Using arithmetic operators
+5-03, Working with increment and decrement operators
+5-04, Using comparison (relational) operators
+5-05, Using logical operators
+5-06, Exploring bitwise operators
+5-07, Working with compound assignment operators
+5-08, Using the array subscript operator
+5-09, Using pointers, members, and indirection operators
+5-10, Exploring the function call operator
+5-11, Working with the ternary conditional operator
+5-12, Determining the size of a type with sizeof
+5-13, Determining the type of an object with typeid
+5-14, Using the cast operator
+5-15, Working with the new and delete operators
+5-16, Understanding operator precedence
+5-17, Using operator synonyms
+
+6-01, Overview of functional programming
+6-02, Defining a function
+6-03, Passing parameters to a function
+6-04, Using automatic and static variables
+6-05, Using function pointers
+6-06, Overloading function names
+6-07, Overloading operators with functions
+6-08, Defining a variable number of arguments
+6-09, Using recursion
+
+7-01, Overview of classes and objects
+7-02, Exploring namespaces
+7-03, Defining a class
+7-04, Using data members
+7-05, Working with member functions
+7-06, Pointing to the current object with the this pointer
+7-07, Using constructors and destructors
+7-08, Exploring implicit vs. explicit constructor types
+7-09, Overloading operators with member functions
+7-10, Overloading operators with non-member functions
+7-11, Using conversion operators
+7-12, Creating function objects
+7-13, Creating and destroying objects with the new and delete operators
+
+8-01, Overview of class inheritance
+8-02, Exploring simple inheritance
+8-03, Review friendship
+8-04, Accessing the base class
+8-05, Understanding multiple inheritance
+8-06, Exploring overloading methods and polymorphism
+
+9-01, Understanding templates
+9-02, Understanding template functions
+9-03, Using template classes
+
+10-01, Overview of the C Standard Library
+10-02, Using stdio for file IO
+10-03, Using stdio for file management
+10-04, Using stdio for unformatted character IO
+10-05, Using stdio for formatted character IO
+10-06, Building string functions
+10-07, Understanding memory allocations
+10-08, Handling system errors
+10-09, Working with time and date functions
+10-10, Getting file information
+
+11-01, Overview of the STL
+11-02, Using vectors
+11-03, Working with pairs and tuples
+11-04, Writing iterators
+11-05, Using lists
+11-06, Working with sets
+11-07, Creating maps
+11-08, Using queues
+11-09, Working with stacks
+11-10, Introducing the deque container
+11-11, Using strings
+11-12, Working with algorithms
+11-13, Using IO Streams
+11-14, Handling exceptions
+
+12-01, Overview of C++ 11
+12-02, Using the range-based for loop
+12-03, Exploring the unambiguous null pointer constant
+12-04, Understanding type reference
+12-05, Using lambda functions
+
+13-01, Goodbye
+
+
+
+###################################################### NOTES
+
+1-07, Using stdout and stderr
+
+DEFINE: stdout, sterr
+
+console applications - plaintext to a console
+three standard strings of text - stdin, stdout, stderr
+printf - send text to the console, standard library function of stdio.h
+fprintf - send text to stdout, stderr, etc
+stdout - buffered text output, stderr isn't buffered, stderr displayed first
+
+SYNTAX: stdout, stderr
+
+__1.cpp
+
+int main(int argc, char * argv[]) {
+	printf("Hello, World!\n");
+	return 0;
+}
+__2.cpp
+
+int main(int argc, char * argv[]) {
+	fprintf(stdout, "Hello, World!\n");
+	fprintf(stderr, "Hello, World!\n");
+	return 0;
+}
+
+__3.cpp
+
+#include <iostream>
+using namespace std;
+
+int main(int argc, char * argv[]){
+	cout << "Hello, World!\n";
+	cerr << "Hello, World!\n";
+	cout << "Hello, World!" << endl;
+	cerr << "Hello, World!" << endl;
+	return 0;
+}
+
+__4.cpp
+
+#include <iostream>
+// using namespace std;
+
+int main(int argc, char * argv[]){
+	std::cout << "Hello, World!\n";
+	std::cerr << "Hello, World!\n";
+	std::cout << "Hello, World!" << std::endl;
+	std::cerr << "Hello, World!" << std::endl;
+	return 0;
+}
+
+1-08, Using stdin
+
+DEFINE: stdin
+
+stdin - standard input of console, input stream
+
+SYNTAX: stdin
+
+__1.cpp
+
+#include <stdio.h>
+
+enum {max_string = 127};
+static char string[max_string + 1] = "";
+
+int main(int argc, char * argv[]){
+	printf("Type a string: ");
+	fgets(string, max_string, stdin);
+	// gets is not secure, fgets is secure
+	printf("The string is: %s", string);
+	return 0;
+}
+
+__2.cpp
+
+#include <iostream>
+
+int main(int argc, char * argv[]){
+	std::cout << "Hello, World!" << std::endl;
+	string inputString;
+	string inputString2;
+	std::cout << "Type a string: ";
+	std::cin >> inputString;
+	std::cout << "Input is: " << inputString << std::endl;
+	std::cout << "Type another string: ");
+	getline(cin, inputString2);
+	std::cout << "The next string is: " << inputString2 << std::endl;
+	return 0;
+}
+
+2-01, Exploring the anatomy of a C program
+CHARLES T.W. TRUSCOTT WATTERS
+DEFINE: anatomy of a C program
+
+	- preprocessor directives e.g. includes, headers, pragmas, macros
+	- multiple headers / standard library includes
+	- function prototypes
+	- int main(int argc, char * argv[])
+	- function declarations, function bodies
+	- return value (0, 1, 2, 3, else);
+	- logical and comparison / relational operators
+	- bitwise operators e.g. shl, shr, bitwise xor, bitwise and, bitwise or
+		bitwise not
+	- arithmetic operators
+	- standard library functions (or API functions, e.g. OS sysprog)
+	- variable declarations
+	- data types and sizes (e.g. enum, struct, typedef struct, array ...
+					integer, floating-point type, char array
+					... int, float, double, char, pointer, ..
+					addressof, &, signed / unsigned, static / 
+					... register / auto ... ->, dot operator
+					... char pointer, integer array ...
+					... function pointer)
+	- #define declarations
+	- standard arguments, argument array pointer of chars, arg count
+	- input and output, formatting
+	- ASCII
+	- Unicode
+	- loops, switches, if-else e.g. while, do-while, for, switch / case
+		if / elif / else
+	- break, goto, continue
+	- ternary operator
+	- stacks, queues, heaps, trees, data structures and algorithms in C
+	- sorting / searching, optimisation
+	- comments such as via '//' and '/* */'
+
+SYNTAX: anatomy of a C program
+
+#include <header.h>
+#include "header.h"
+
+pragmas, macros such as #define, #undef (function like / object like)
+#define
+
+int another_function(int a, int b, int c);
+char * return_string(char a[20], char b[40]);
+double add_floats(float a, float b, float c, char * invoke_strtol);
+
+int main(int argc, char * argv[]) {
+
+	return 0;
+}
+__1.cpp
+
+#include <stdio.h> // include header for the stdio functions
+
+int main(int argc, char * argv[]) {
+	printf("Hello, World!\n");
+
+	return 0;
+}
+
+__2.cpp
+
+#include <iostream>
+#include <cstdio>
+
+int main(int argc, char * argv[]) {
+	std::cout << "Hello, World!\n"; // overloading the left shift operator 
+	printf("Hello, World!\n");
+	return 0;
+}
+
+2-02, Writing statements and expressions
+
+DEFINE: statement, expression
+	statement, i.e. data type, variable equals value such as function
+			int, char, char *, char array, int array, float
+			double, structure, enumeration, pointer, addressof
+			void, and so on
+	blocks, compound statements, curly braces
+	statements are also often expressions, expressions deal with operators
+	while statements deal with assignments
+
+SYNTAX: statements, expressions
+
+__1.cpp
+
+#include <stdio.h>
+
+int main(int argc, char * argv[]) {
+	for(int i = 1; i <= 5; ++i) {
+		int x = printf("Hello, World!\n") * 5;
+		printf("printf returned %d\n", x);
+		return 0;
+	}
+	for(int j = 1; j <= 5; ++j) { printf("j is %d\n", j); }
+}
+2-03, Working with identifiers
+identifiers, the ASCII representation of letters, western arabic numerals
+underscore
+
+C reserved words
+C++ reserved words
+allow letters that are not part of the ISO latin alphabetic
+any length, 63 characters for uniqueness
+
+31 characters
+
+_private_identifiers
+__system_use_only
+
+
+DEFINE: identifier
+SYNTAX: identifier
+
+__1.cpp
+
+2-04, Defining variables
+
+DEFINE: defining a variable, variable
+
+	defining a variable is to allocate a type, value, storage space in memory
+	initialising a variable is to state the value of the variable
+SYNTAX: defining a variable
+
+
+__1.cpp
+
+#include <stdio.h>
+
+int main(void) {
+	int i = 7;
+	// always assign values
+	char * s = "Hello, World!\n";
+	printf("i is %d\n", i);
+	printf("%s", s);
+}
+
+2-05, Understanding identifier scope and using storage classes
+
+DEFINE: identifier scope, storage classes
+	identifier scope and storage class determine when and where you can use an identifier or variable
+	scope refers to the places in which a variable can be used
+	storage class - when and where and how the storage space is available for a variable
+	auto, static, extern and register
+SYNTAX: identifier scope, storage classes
+
+__1.cpp
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+#define PI 3.14
+
+int main(int argc, char * argv[]) {
+	for(int i = 1; i <= 5; ++i) {
+		int number = 7;
+		printf("number is %d\n", number++);
+	}
+	for(int i = 1; i <= 5; ++i) {
+		static int number = 7;
+		printf("number is %d\n", number++);
+	}
+	return 0;
+}
+
+2-06, Declaring variables and functions
+
+DEFINE: declaring a variable, declaring a function
+SYNTAX: declaring a variable, declaring a function
+
+2-07, Using pointers
+
+DEFINE: pointer, using a pointer
+SYNTAX: using a pointer, declaring a pointer, accessing the value of a pointer, accessing the value pointed to
+
+2-08, Working with arrays and strings
+
+DEFINE: array, string
+SYNTAX: declaring an array, declaring a string; using an array, using a string
+
+2-09, Comparing with conditionals
+
+DEFINE: conditional operators, comparison tests
+SYNTAX: conditional operator comparison
+
+
+2-10, Using switch statements
+
+DEFINE: switch statement
+SYNTAX: switch statement
+
+
+2-11, Using while and do loops
+
+DEFINE: while-do, do-while
+SYNTAX: while-do, do-while
+
+2-12, Iterating with the for loop
+
+DEFINE: for loop
+SYNTAX: for loop
+
+2-13, Creating functions
+
+DEFINE: function declaration, function invocation, function use, function prototype
+SYNTAX: function declaration, function invocation, function use, function prototype
+
+2-14, Branching with goto, break, and continue
+
+DEFINE: goto, break, continue
+SYNTAX: goto, break, continue
+
+
+
+
+
+3-01, About the C preprocessor
+
+DEFINE: C Preprocessor
+SYNTAX: C Preprocessor
+
+
+3-02, Defining constants
+
+DEFINE:
+SYNTAX:
+
+3-03, Including files
+
+DEFINE:
+SYNTAX:
+
+3-04, Exploring conditional compilation
+
+DEFINE:
+SYNTAX:
+
+3-05, Defining macros
+
+DEFINE:
+SYNTAX:
+
+3-06, Macro caveats
+
+DEFINE:
+SYNTAX:
+
+3-07, Working with line continuation
+
+DEFINE:
+SYNTAX:
+
+3-08, Including files only once
+
+DEFINE:
+SYNTAX:
+
+
+4-01, About the data types
+
+DEFINE:
+SYNTAX:
+
+4-02, Introducing integer types
+
+DEFINE:
+SYNTAX:
+
+4-03, Understanding floating-point types
+
+DEFINE:
+SYNTAX:
+
+4-04, Working with characters and strings
+
+DEFINE:
+SYNTAX:
+
+4-05, Using strings
+
+DEFINE:
+SYNTAX:
+
+4-06, Creating character escape sequences
+
+DEFINE:
+SYNTAX:
+
+4-07, Working with qualifiers
+
+DEFINE:
+SYNTAX:
+
+4-08, Using the C++ reference type
+
+DEFINE:
+SYNTAX:
+
+4-09, Working with structured data
+
+DEFINE:
+SYNTAX:
+
+4-10, Introducing bit-fields
+
+DEFINE:
+SYNTAX:
+
+4-11, Working with enumerations
+
+DEFINE:
+SYNTAX:
+
+4-12, Using unions
+
+DEFINE:
+SYNTAX:
+
+4-13, Defining types with typedef
+
+DEFINE:
+SYNTAX:
+
+4-14, Introducing the void type
+
+DEFINE:
+SYNTAX:
+
+4-15, Understanding the auto type
+
+DEFINE:
+SYNTAX:
+
+
+5-01, Exploring the assignment operator
+
+DEFINE:
+SYNTAX:
+
+5-02, Using arithmetic operators
+
+DEFINE:
+SYNTAX:
+
+5-03, Working with increment and decrement operators
+
+DEFINE:
+SYNTAX:
+
+5-04, Using comparison (relational) operators
+
+DEFINE: comparison / relational operators
+SYNTAX: comparison / relational operators
+
+5-05, Using logical operators
+
+DEFINE: logical operators
+SYNTAX: logical operators
+
+5-06, Exploring bitwise operators
+
+DEFINE: bitwise operators
+SYNTAX: bitwise operators
+
+5-07, Working with compound assignment operators
+
+DEFINE: compound assignment operators
+SYNTAX: compound assignment operators
+
+5-08, Using the array subscript operator
+
+DEFINE: array subscript operator
+SYNTAX: array subscript operator
+
+5-09, Using pointers, members, and indirection operators
+
+
+DEFINE:
+SYNTAX:
+
+5-10, Exploring the function call operator
+
+DEFINE:
+SYNTAX:
+
+5-11, Working with the ternary conditional operator
+
+DEFINE:
+SYNTAX:
+
+5-12, Determining the size of a type with sizeof
+
+DEFINE:
+SYNTAX:
+
+5-13, Determining the type of an object with typeid
+
+DEFINE:
+SYNTAX:
+
+5-14, Using the cast operator
+
+DEFINE:
+SYNTAX:
+
+5-15, Working with the new and delete operators
+
+DEFINE:
+SYNTAX:
+
+5-16, Understanding operator precedence
+
+DEFINE:
+SYNTAX:
+
+5-17, Using operator synonyms
+
+DEFINE:
+SYNTAX:
+
+
+6-01, Overview of functional programming
+
+DEFINE:
+SYNTAX:
+
+6-02, Defining a function
+
+DEFINE:
+SYNTAX:
+
+6-03, Passing parameters to a function
+
+DEFINE:
+SYNTAX:
+
+6-04, Using automatic and static variables
+
+DEFINE:
+SYNTAX:
+
+6-05, Using function pointers
+
+DEFINE:
+SYNTAX:
+
+6-06, Overloading function names
+
+DEFINE:
+SYNTAX:
+
+6-07, Overloading operators with functions
+
+DEFINE:
+SYNTAX:
+
+6-08, Defining a variable number of arguments
+
+DEFINE:
+SYNTAX:
+
+6-09, Using recursion
+
+DEFINE:
+SYNTAX:
+
+
+7-01, Overview of classes and objects
+
+DEFINE:
+SYNTAX:
+
+7-02, Exploring namespaces
+
+DEFINE:
+SYNTAX:
+
+7-03, Defining a class
+
+DEFINE:
+SYNTAX:
+
+7-04, Using data members
+
+DEFINE:
+SYNTAX:
+
+7-05, Working with member functions
+
+DEFINE:
+SYNTAX:
+
+7-06, Pointing to the current object with the this pointer
+
+DEFINE:
+SYNTAX:
+
+7-07, Using constructors and destructors
+
+DEFINE:
+SYNTAX:
+
+7-08, Exploring implicit vs. explicit constructor types
+
+DEFINE:
+SYNTAX:
+
+7-09, Overloading operators with member functions
+
+DEFINE:
+SYNTAX:
+
+7-10, Overloading operators with non-member functions
+
+DEFINE:
+SYNTAX:
+
+7-11, Using conversion operators
+
+DEFINE:
+SYNTAX:
+
+7-12, Creating function objects
+
+DEFINE:
+SYNTAX:
+
+7-13, Creating and destroying objects with the new and delete operators
+
+DEFINE:
+SYNTAX:
+
+
+8-01, Overview of class inheritance
+
+DEFINE:
+SYNTAX:
+
+8-02, Exploring simple inheritance
+
+DEFINE:
+SYNTAX:
+
+8-03, Review friendship
+
+DEFINE:
+SYNTAX:
+
+8-04, Accessing the base class
+
+DEFINE:
+SYNTAX:
+
+8-05, Understanding multiple inheritance
+
+DEFINE:
+SYNTAX:
+
+8-06, Exploring overloading methods and polymorphism
+
+DEFINE:
+SYNTAX:
+
+
+9-01, Understanding templates
+
+DEFINE:
+SYNTAX:
+
+9-02, Understanding template functions
+
+DEFINE:
+SYNTAX:
+
+9-03, Using template classes
+
+DEFINE:
+SYNTAX:
+
+
+10-01, Overview of the C Standard Library
+
+DEFINE:
+SYNTAX:
+
+10-02, Using stdio for file IO
+
+DEFINE:
+SYNTAX:
+
+10-03, Using stdio for file management
+
+DEFINE:
+SYNTAX:
+
+10-04, Using stdio for unformatted character IO
+
+DEFINE:
+SYNTAX:
+
+10-05, Using stdio for formatted character IO
+
+DEFINE:
+SYNTAX:
+
+10-06, Building string functions
+
+DEFINE:
+SYNTAX:
+
+10-07, Understanding memory allocations
+
+DEFINE:
+SYNTAX:
+
+10-08, Handling system errors
+
+DEFINE:
+SYNTAX:
+
+10-09, Working with time and date functions
+
+DEFINE:
+SYNTAX:
+
+10-10, Getting file information
+
+DEFINE:
+SYNTAX:
+
+
+11-01, Overview of the STL
+
+DEFINE:
+SYNTAX:
+
+11-02, Using vectors
+
+DEFINE:
+SYNTAX:
+
+11-03, Working with pairs and tuples
+
+DEFINE:
+SYNTAX:
+
+11-04, Writing iterators
+
+DEFINE:
+SYNTAX:
+
+11-05, Using lists
+
+DEFINE:
+SYNTAX:
+
+11-06, Working with sets
+
+DEFINE:
+SYNTAX:
+
+11-07, Creating maps
+
+DEFINE:
+SYNTAX:
+
+11-08, Using queues
+
+DEFINE:
+SYNTAX:
+
+11-09, Working with stacks
+
+DEFINE:
+SYNTAX:
+
+11-10, Introducing the deque container
+
+DEFINE:
+SYNTAX:
+
+11-11, Using strings
+
+DEFINE:
+SYNTAX:
+
+11-12, Working with algorithms
+
+DEFINE:
+SYNTAX:
+
+11-13, Using IO Streams
+
+DEFINE:
+SYNTAX:
+
+11-14, Handling exceptions
+
+DEFINE:
+SYNTAX:
+
+
+12-01, Overview of C++ 11
+
+DEFINE:
+SYNTAX:
+
+12-02, Using the range-based for loop
+
+DEFINE:
+SYNTAX:
+
+12-03, Exploring the unambiguous null pointer constant
+
+DEFINE:
+SYNTAX:
+
+12-04, Understanding type reference
+
+DEFINE:
+SYNTAX:
+
+12-05, Using lambda functions
+
+DEFINE:
+SYNTAX:
+
+
+13-01, Goodbye
+
+Goodbye
+
